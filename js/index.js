@@ -7,6 +7,28 @@ const stage = document.getElementById("stage");
 const snake = [{ x: 11, y: 11 }];
 const moveDirection = { x: 0, y: 0 };
 
+const getRandomNumber = () => Math.floor(Math.random() * (22 - 1)) + 1;
+
+const food = { x: getRandomNumber(), y: getRandomNumber() };
+
+const handleGetFood = () => {
+  if (snake[0].x !== food.x || snake[0].y !== food.y) return;
+
+  const lastSnakeBlock = snake.length - 1;
+  snake.push({ x: snake[lastSnakeBlock].x + moveDirection.x, y: snake[lastSnakeBlock] + moveDirection.y });
+
+  food.x = getRandomNumber();
+  food.y = getRandomNumber();
+}
+
+const drawFood = (stage) => {
+  const foodBlock = document.createElement('div');
+  foodBlock.style.gridRowStart = food.y;
+  foodBlock.style.gridColumnStart = food.x;
+  foodBlock.classList.add('food');
+
+  stage.appendChild(foodBlock);
+}
 
 window.addEventListener('keydown', (event) => {
   switch (event.key) {
@@ -31,13 +53,13 @@ window.addEventListener('keydown', (event) => {
       moveDirection.y = 1;
       break;
   }
-})
+});
 
 export const swapToTheOtherSideOfTheScreen = () => {
-  if (snake[0].x < 0) snake[0].x = 22;
-  if (snake[0].x > 22) snake[0].x = 0;
-  if (snake[0].y < 0) snake[0].y = 22;
-  if (snake[0].y > 22) snake[0].y = 0;
+  if (snake[0].x < 1) snake[0].x = 22;
+  if (snake[0].x > 22) snake[0].x = 1;
+  if (snake[0].y < 1) snake[0].y = 22;
+  if (snake[0].y > 22) snake[0].y = 1;
 }
 
 export const moveSnake = () => {
@@ -78,6 +100,8 @@ const main = (currentTime) => {
   stage.innerHTML = '';
   moveSnake();
   drawSnake(stage);
+  drawFood(stage);
+  handleGetFood();
 }
 
 window.requestAnimationFrame(main);
