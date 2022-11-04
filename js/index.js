@@ -1,5 +1,6 @@
 
 let lastRenderTime = 0;
+let gameOver = false;
 
 const SNAKE_SPEED = 10;
 const stage = document.getElementById("stage");
@@ -10,6 +11,13 @@ const moveDirection = { x: 0, y: 0 };
 const getRandomNumber = () => Math.floor(Math.random() * (22 - 1)) + 1;
 
 const food = { x: getRandomNumber(), y: getRandomNumber() };
+
+const handleCollision = () => {
+  snake.forEach((segment, index) => {
+    if (index === 0) return;
+    if (JSON.stringify(snake[0]) === JSON.stringify(segment)) gameOver = true;
+  });
+}
 
 const handleGetFood = () => {
   if (snake[0].x !== food.x || snake[0].y !== food.y) return;
@@ -77,6 +85,7 @@ export const moveSnake = () => {
   moveBody();
   moveHead();
   swapToTheOtherSideOfTheScreen();
+  handleCollision();
 }
 
 export const drawSnake = (stage) => {
@@ -91,6 +100,10 @@ export const drawSnake = (stage) => {
 }
 
 const main = (currentTime) => {
+  if (gameOver) {
+    return;
+  }
+
   window.requestAnimationFrame(main);
 
   const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000;
