@@ -1,0 +1,58 @@
+body {
+  align-items: center;
+  background-color: black;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  margin: 0;
+  width: 100vw;
+}
+
+#stage {
+  border: 1vmin solid white;
+  display: grid;
+  grid-template-columns: repeat(22, 1fr);
+  grid-template-rows: repeat(22, 1fr);
+  height: 80vmin;
+  width: 80vmin;
+}
+
+.snake {
+  border: 0.5vmin solid white;
+}
+
+.food {
+  background-color: white;
+}
+
+.game-over.hidden {
+  display: none;
+}
+
+.game-over {
+  gap: 3vmin;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  font-family: 'Press Start 2P', cursive;
+  left: 0;
+  right: 0;
+  color: white;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50vmin;
+  text-align: center;
+  font-size: 3.8vmin;
+  text-shadow: 0.4vmin 0.4vmin 0.1vmin black;
+}
+
+.game-over img {
+  width: 8vmin;
+  height: 8vmin;
+  border: 0.1vmin solid black;
+}
+
+.game-over img:hover {
+  transform: scale(1.1);
+}
