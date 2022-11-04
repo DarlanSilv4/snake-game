@@ -1,5 +1,6 @@
 import { drawFood, handleGetFood } from "./food.js";
 import { getMoveDirection } from "./input.js";
+import { initializateScoreboard, updateHighScore } from "./score.js";
 import { snakeSpeed, drawSnake, move as moveSnake, hasCollided } from "./snake.js";
 
 let lastRenderTime = 0;
@@ -18,6 +19,7 @@ const clearScreen = () => {
 
 const main = (currentTime) => {
   if (gameOver) {
+    updateHighScore();
     showGameOver();
     return;
   }
@@ -39,4 +41,5 @@ const main = (currentTime) => {
   handleGetFood();
 }
 
+initializateScoreboard();
 window.requestAnimationFrame(main);

@@ -1,3 +1,7 @@
+import { score } from "./score.js";
+
+const SPEED_RATE = 1;
+
 export let snakeSpeed = 5;
 
 const snake = [{ x: 11, y: 11 }];
@@ -15,6 +19,10 @@ export const drawSnake = (stage) => {
 
 const getHead = () => {
   return snake[0];
+}
+
+export const increaseSnakeSpeed = () => {
+  if (score % 5 === 0) snakeSpeed += SPEED_RATE;
 }
 
 export const increaseSnake = () => {

@@ -8,6 +8,21 @@ body {
   width: 100vw;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.scoreboard {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  font-family: 'Press Start 2P', cursive;
+  height: 10vmin;
+  gap: 1vmin;
+  font-size: 2.8vmin;
+}
+
 #stage {
   border: 1vmin solid white;
   display: grid;
