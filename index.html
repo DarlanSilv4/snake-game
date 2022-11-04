@@ -6,6 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Snake Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
   <style>
     body {
@@ -34,12 +37,50 @@
     .food {
       background-color: white;
     }
+
+    .game-over.hidden {
+      display: none;
+    }
+
+    .game-over {
+      gap: 3vmin;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: absolute;
+      font-family: 'Press Start 2P', cursive;
+      left: 0;
+      right: 0;
+      color: white;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50vmin;
+      text-align: center;
+      font-size: 3.8vmin;
+      text-shadow: 0.4vmin 0.4vmin 0.1vmin black;
+    }
+
+    .game-over img {
+      width: 8vmin;
+      height: 8vmin;
+      border: 0.1vmin solid black;
+    }
+
+    .game-over img:hover {
+      transform: scale(1.1);
+    }
   </style>
   <script src="./js/index.js" defer type="module"></script>
 </head>
 
 <body>
   <div id="stage"></div>
+  <div id="game-over" class="hidden game-over">
+    <span>Game Over</span>
+    <a href="/">
+      <img src="./svg/retry.svg" />
+    </a>
+  </div>
 </body>
 
 

@@ -12,6 +12,11 @@ const getRandomNumber = () => Math.floor(Math.random() * (22 - 1)) + 1;
 
 const food = { x: getRandomNumber(), y: getRandomNumber() };
 
+const showGameOver = () => {
+  const gameOverElement = document.getElementById('game-over');
+  gameOverElement.classList.remove("hidden");
+}
+
 const handleCollision = () => {
   snake.forEach((segment, index) => {
     if (index === 0) return;
@@ -101,6 +106,7 @@ export const drawSnake = (stage) => {
 
 const main = (currentTime) => {
   if (gameOver) {
+    showGameOver();
     return;
   }
 
