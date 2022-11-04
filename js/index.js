@@ -1,107 +1,19 @@
+import { drawFood, handleGetFood } from "./food.js";
+import { getMoveDirection } from "./input.js";
+import { snakeSpeed, drawSnake, move as moveSnake, hasCollided } from "./snake.js";
 
 let lastRenderTime = 0;
 let gameOver = false;
 
-const SNAKE_SPEED = 10;
 const stage = document.getElementById("stage");
-
-const snake = [{ x: 11, y: 11 }];
-const moveDirection = { x: 0, y: 0 };
-
-const getRandomNumber = () => Math.floor(Math.random() * (22 - 1)) + 1;
-
-const food = { x: getRandomNumber(), y: getRandomNumber() };
 
 const showGameOver = () => {
   const gameOverElement = document.getElementById('game-over');
   gameOverElement.classList.remove("hidden");
 }
 
-const handleCollision = () => {
-  snake.forEach((segment, index) => {
-    if (index === 0) return;
-    if (JSON.stringify(snake[0]) === JSON.stringify(segment)) gameOver = true;
-  });
-}
-
-const handleGetFood = () => {
-  if (snake[0].x !== food.x || snake[0].y !== food.y) return;
-
-  const lastSnakeBlock = snake.length - 1;
-  snake.push({ x: snake[lastSnakeBlock].x + moveDirection.x, y: snake[lastSnakeBlock] + moveDirection.y });
-
-  food.x = getRandomNumber();
-  food.y = getRandomNumber();
-}
-
-const drawFood = (stage) => {
-  const foodBlock = document.createElement('div');
-  foodBlock.style.gridRowStart = food.y;
-  foodBlock.style.gridColumnStart = food.x;
-  foodBlock.classList.add('food');
-
-  stage.appendChild(foodBlock);
-}
-
-window.addEventListener('keydown', (event) => {
-  switch (event.key) {
-    case "ArrowUp":
-      if (moveDirection.y === 1) return;
-      moveDirection.x = 0;
-      moveDirection.y = -1;
-      break;
-    case "ArrowRight":
-      if (moveDirection.x === -1) return;
-      moveDirection.x = 1;
-      moveDirection.y = 0;
-      break;
-    case "ArrowLeft":
-      if (moveDirection.x === 1) return;
-      moveDirection.x = -1;
-      moveDirection.y = 0;
-      break;
-    case "ArrowDown":
-      if (moveDirection.y === -1) return;
-      moveDirection.x = 0;
-      moveDirection.y = 1;
-      break;
-  }
-});
-
-export const swapToTheOtherSideOfTheScreen = () => {
-  if (snake[0].x < 1) snake[0].x = 22;
-  if (snake[0].x > 22) snake[0].x = 1;
-  if (snake[0].y < 1) snake[0].y = 22;
-  if (snake[0].y > 22) snake[0].y = 1;
-}
-
-export const moveSnake = () => {
-  const moveBody = () => {
-    for (let i = snake.length - 2; i >= 0; i--) {
-      snake[i + 1] = { ...snake[i] };
-    };
-  }
-
-  const moveHead = () => {
-    snake[0].x += moveDirection.x;
-    snake[0].y += moveDirection.y;
-  }
-
-  moveBody();
-  moveHead();
-  swapToTheOtherSideOfTheScreen();
-  handleCollision();
-}
-
-export const drawSnake = (stage) => {
-  snake.forEach(segment => {
-    const snakeBlock = document.createElement('div');
-    snakeBlock.style.gridRowStart = segment.y;
-    snakeBlock.style.gridColumnStart = segment.x;
-    snakeBlock.classList.add('snake');
-
-    stage.appendChild(snakeBlock);
-  });
+const clearScreen = () => {
+  return stage.innerHTML = '';
 }
 
 const main = (currentTime) => {
@@ -113,11 +25,15 @@ const main = (currentTime) => {
   window.requestAnimationFrame(main);
 
   const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000;
-  if (secondsSinceLastRender < 1 / SNAKE_SPEED) return;
+  if (secondsSinceLastRender < 1 / snakeSpeed) return;
   lastRenderTime = currentTime;
 
-  stage.innerHTML = '';
-  moveSnake();
+  clearScreen();
+
+  moveSnake(getMoveDirection());
+
+  gameOver = hasCollided();
+
   drawSnake(stage);
   drawFood(stage);
   handleGetFood();
